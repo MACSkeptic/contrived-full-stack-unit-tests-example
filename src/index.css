@@ -1,0 +1,59 @@
+body {
+  color: white;
+  background: purple;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+header {
+  display: flex;
+  flex-direction: row;
+}
+header a,
+header a:hover {
+  background: pink;
+  color: white;
+  text-decoration: none;
+  text-align: center;
+  flex: 1 0 auto;
+  padding: 1rem 0;
+}
+header a:hover,
+header a:hover:visited {
+  background: hotpink;
+}
+header a.active,
+header a.active:visited,
+header a.active:hover {
+  background: purple;
+  color: white;
+}
+nav {
+  background: mediumpurple;
+  display: flex;
+  flex-direction: row;
+}
+nav {
+  margin: 1rem;
+}
+nav ~ * {
+  margin: 1rem;
+}
+nav a,
+nav a:hover {
+  background: mediumpurple;
+  color: white;
+  text-decoration: none;
+  text-align: center;
+  flex: 1 0 auto;
+  padding: 1rem 0;
+}
+nav a:hover,
+nav a:hover:visited {
+  background: teal;
+}
+nav a.active,
+nav a.active:visited,
+nav a.active:hover {
+  background: magenta;
+}
