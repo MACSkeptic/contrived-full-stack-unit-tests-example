@@ -3,6 +3,7 @@ import thunkMiddleware from 'redux-thunk';
 import rootReducer from './reducers.js';
 
 const loggerMiddleware = store => next => action => {
+  /* eslint-disable no-console */
   console.group(action.type);
   console.info('dispatching', action);
   let result = next(action);

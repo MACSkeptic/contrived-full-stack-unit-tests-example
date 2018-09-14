@@ -55,9 +55,9 @@ export class AnimalListController extends React.Component {
   );
 };
 
-export const ConnectedAnimalListController = connect((state, ownProps) => {
-  return { animals: state.animals[ownProps.match.params.index] || {}, Menu: ReduxMenu };
-}, { fetch: fetchAnimalsRedux })(AnimalListController);
+export const ConnectedAnimalListController = connect((state, ownProps) => ({
+  animals: state.animals[ownProps.match.params.index] || {}, Menu: ReduxMenu
+}), { fetch: fetchAnimalsRedux })(AnimalListController);
 
 const context = React.createContext({});
 

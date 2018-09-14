@@ -3,6 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "eslint": "^5.5.0",
+    "eslint-config-react-app": "^2.1.0",
+    "eslint-plugin-flowtype": "^2.50.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "5",
+    "eslint-plugin-react": "^7.11.1",
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
     "react": "^16.5.0",
@@ -19,9 +25,11 @@
     "xstate": "^3.3.3"
   },
   "scripts": {
+    "lint": "eslint .",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test:ci": "CI=true react-scripts test --env=jsdom --verbose",
+    "test": "react-scripts test --env=jsdom --verbose",
     "eject": "react-scripts eject"
   }
 }

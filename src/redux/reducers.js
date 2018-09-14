@@ -1,16 +1,14 @@
 import _ from 'lodash';
 import { combineReducers } from 'redux';
 
-const localReducer = (localState = {}, action = {}) => {
-  return _.merge(
-    { data: undefined, error: undefined, cached: undefined, loading: undefined, status: undefined },
-    localState,
-    _.pick(action, ['data', 'error', 'status']),
-    (action.status === 'started') && { loading: true },
-    (action.status !== 'started') && { loading: false },
-    (action.status === 'success') && { cached: true }
-  );
-};
+const localReducer = (localState = {}, action = {}) => _.merge(
+  { data: undefined, error: undefined, cached: undefined, loading: undefined, status: undefined },
+  localState,
+  _.pick(action, ['data', 'error', 'status']),
+  (action.status === 'started') && { loading: true },
+  (action.status !== 'started') && { loading: false },
+  (action.status === 'success') && { cached: true }
+);
 
 export const indexedReducerFor = (type) => (state = {}, action = {}) => (
   (action.type !== type) ? (state || {}) : _.merge(
