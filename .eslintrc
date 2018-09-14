@@ -1,0 +1,19 @@
+{
+  "extends": ["react-app", "plugin:jsx-a11y/recommended"],
+  "plugins": ["jsx-a11y", "import"],
+  "rules": {
+    "arrow-body-style": ["error", "as-needed"],
+    "no-console": ["error"],
+    "no-debugger": ["error"],
+    "comma-dangle": ["error", "never"],
+    "complexity": ["error", { "max": 5 }],
+    "semi": ["error", "always"],
+    "import/no-commonjs": ["error"],
+    "no-unused-expressions": ["error"],
+    "no-unused-vars": ["error", { "args": "none" }],
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
+  },
+  "globals": {
+    "sandbox": true
+  }
+}
