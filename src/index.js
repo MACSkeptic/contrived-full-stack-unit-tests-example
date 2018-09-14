@@ -11,15 +11,15 @@ import { Route, BrowserRouter } from 'react-router-dom';
 const store = configureStore();
 
 const render = () => (ReactDOM.render((
-  <ContextProvider>
-    <ReduxProvider store={store}>
+  <ReduxProvider store={store}>
+    <ContextProvider>
       <BrowserRouter>
         <React.Fragment>
           <Route path="/" component={App} />
         </React.Fragment>
       </BrowserRouter>
-    </ReduxProvider>
-  </ContextProvider>
+    </ContextProvider>
+  </ReduxProvider>
 ), document.getElementById('root')));
 
 if ((process.env.NODE_ENV !== 'production') && module.hot) {
