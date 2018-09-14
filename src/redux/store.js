@@ -14,10 +14,7 @@ const groupEnd = consoleFn('groupEnd');
 const loggerMiddleware = store => next => action => {
   group(action.type);
   info('dispatching', action);
-  return _.tap(next(action), (result) => ([
-    log('next state', store.getState()),
-    groupEnd()
-  ]));
+  return _.tap(next(action), (result) => ([log('next state', store.getState()), groupEnd()]));
 };
 
 export const configureStore = (preloadedState) => {
