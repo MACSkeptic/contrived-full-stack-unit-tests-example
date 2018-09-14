@@ -1,10 +1,12 @@
 import _ from 'lodash';
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect as reduxConnect } from 'react-redux';
 import { Route, Redirect, Switch, NavLink } from 'react-router-dom';
+import { connect as contextConnect } from './context.js';
 import { httpGetAnimals } from './animals/fetch.js';
-import { context } from './context.js';
 
+
+export const fetchAnimalsContext = (...args) => httpGetAnimals(...args);
 export const fetchAnimalsRedux = (filter = 'all') => (reduxDispatch) => {
   const dispatch = (extras) => reduxDispatch(_.merge({
     type: 'animals', status: null, index: filter, data: undefined, error: undefined
@@ -17,22 +19,9 @@ export const fetchAnimalsRedux = (filter = 'all') => (reduxDispatch) => {
   );
 };
 
-export const ReduxMenu = () => (
+export const Nav = ({ nav }) => (
   <React.Fragment>
-    <nav>
-      <NavLink to="/redux/animals/all">all</NavLink>
-      <NavLink to="/redux/animals/real">real</NavLink>
-      <NavLink to="/redux/animals/magical">magical</NavLink>
-    </nav>
-  </React.Fragment>
-);
-export const ContextMenu = () => (
-  <React.Fragment>
-    <nav>
-      <NavLink to="/context/animals/all">all</NavLink>
-      <NavLink to="/context/animals/real">real</NavLink>
-      <NavLink to="/context/animals/magical">magical</NavLink>
-    </nav>
+    <nav>{_.map(['all', 'real', 'magical'], target => (<NavLink to={`/${nav}/animals/${target}`} key={target}>{target}</NavLink>))}</nav>
   </React.Fragment>
 );
 
@@ -49,30 +38,19 @@ export class AnimalListController extends React.Component {
   componentDidUpdate = ({ match: { params: { index } } }) => ((index !== this.props.match.params.index) && this.fetch());
   render = () => (
     <React.Fragment>
-      <this.props.Menu />
+      <Nav nav={this.props.nav} />
       <AnimalList {...this.props.animals} />
     </React.Fragment>
   );
 };
 
-export const ConnectedAnimalListController = connect((state, ownProps) => ({
-  animals: state.animals[ownProps.match.params.index] || {}, Menu: ReduxMenu
+export const ReduxAnimalListController = reduxConnect((state, ownProps) => ({
+  animals: _.get(state, ['animals', ownProps.match.params.index]) || {}, nav: 'redux'
 }), { fetch: fetchAnimalsRedux })(AnimalListController);
 
-
-
-export const ContextAnimalListController = (props) => (
-  <context.Consumer>
-    {(({ get, action }) => (
-      <AnimalListController
-        match={props.match}
-        animals={get('animals')(props.match.params.index)}
-        Menu={ContextMenu}
-        fetch={action('animals')(httpGetAnimals)}
-      />
-    ))}
-  </context.Consumer>
-);
+export const ContextAnimalListController = contextConnect('animals')((state, ownProps) => ({
+  animals: _.get(state, [ownProps.match.params.index]) || {}, nav: 'context'
+}), { fetch: fetchAnimalsContext })(AnimalListController);
 
 export const App = () => (
   <React.Fragment>
@@ -90,7 +68,7 @@ export const App = () => (
         )} />
         <Route path="/redux/*" render={() => (
           <Switch>
-            <Route path="/redux/animals/:index" component={ConnectedAnimalListController} />
+            <Route path="/redux/animals/:index" component={ReduxAnimalListController} />
             <Route path="/redux/animals" render={() => <Redirect to="/redux/animals/all" />} />
             <Route path="/redux" render={() => <Redirect to="/redux/animals" />} />
           </Switch>
