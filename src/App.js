@@ -16,7 +16,7 @@ export const ContextAnimalListController = contextConnect('animals')((state, own
 
 export const App = () => (
   <React.Fragment>
-    <header style={{ display: 'none' }}>
+    <header>
       <NavLink to="/redux/animals">Redux</NavLink>
       <NavLink to="/context/animals">Context</NavLink>
     </header>

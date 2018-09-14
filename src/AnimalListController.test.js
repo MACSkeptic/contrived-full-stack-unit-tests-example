@@ -64,6 +64,6 @@ describe('traditional component tests', () => {
       expect(fetchStub.called).toEqual(true);
       expect(fetchStub.lastCall.args[0]).toEqual('magical');
     });
-    it('fetches again when the index changes');
+    it('fetches again when the url changes');
   });
 });
