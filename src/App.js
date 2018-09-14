@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Redirect, Switch, NavLink } from 'react-router-dom';
 import { httpGetAnimals } from './animals/fetch.js';
-import { indexedReducerFor } from './redux/reducers.js';
+import { context } from './context.js';
 
 export const fetchAnimalsRedux = (filter = 'all') => (reduxDispatch) => {
   const dispatch = (extras) => reduxDispatch(_.merge({
@@ -59,52 +59,16 @@ export const ConnectedAnimalListController = connect((state, ownProps) => ({
   animals: state.animals[ownProps.match.params.index] || {}, Menu: ReduxMenu
 }), { fetch: fetchAnimalsRedux })(AnimalListController);
 
-const context = React.createContext({});
 
-export class AnimalsProvider extends React.Component {
-  mounted = true;
-  constructor(props) {
-    super(props);
-    const setState = this.setState.bind(this);
-    this.setState = (...args) => this.mounted && setState(...args);
-    this.state = {
-      fetch: this.fetch,
-      animals: {}
-    };
-  }
-  fetch = (index) => {
-    const update = (extras) => ({
-      animals: indexedReducerFor('animals')(this.state.animals, _.merge({
-        type: 'animals', status: null, index, data: undefined, error: undefined
-      }, extras))
-    });
-    this.setState(update({ status: 'started' }));
-    return httpGetAnimals(index).then(
-      (data) => this.setState(update({ status: 'success', data })),
-      (error) => this.setState(update({ status: 'failure', error }))
-    );
-  };
-  componentDidMount = () => {
-    this.mounted = true;
-  };
-  componentWillUnmount = () => {
-    this.mounted = false;
-  };
-  render = () => (
-    <context.Provider value={{...this.state}}>
-      {this.props.children}
-    </context.Provider>
-  );
-};
 
 export const ContextAnimalListController = (props) => (
   <context.Consumer>
     {((contextProps) => (
       <AnimalListController
         match={props.match}
-        animals={contextProps.animals[props.match.params.index] || {}}
+        animals={_.get(contextProps, ['animals', props.match.params.index]) || {}}
         Menu={ContextMenu}
-        fetch={contextProps.fetch}
+        fetch={_.partial(contextProps.fetch, 'animals', httpGetAnimals)}
       />
     ))}
   </context.Consumer>
@@ -118,13 +82,11 @@ export const App = () => (
     </header>
       <Switch>
         <Route path="/context/*" render={() => (
-          <AnimalsProvider>
-            <Switch>
-              <Route path="/context/animals/:index" component={ContextAnimalListController} />
-              <Route path="/context/animals" render={() => <Redirect to="/context/animals/all" />} />
-              <Route path="/context" render={() => <Redirect to="/context/animals" />} />
-            </Switch>
-          </AnimalsProvider>
+          <Switch>
+            <Route path="/context/animals/:index" component={ContextAnimalListController} />
+            <Route path="/context/animals" render={() => <Redirect to="/context/animals/all" />} />
+            <Route path="/context" render={() => <Redirect to="/context/animals" />} />
+          </Switch>
         )} />
         <Route path="/redux/*" render={() => (
           <Switch>
