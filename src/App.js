@@ -63,12 +63,12 @@ export const ConnectedAnimalListController = connect((state, ownProps) => ({
 
 export const ContextAnimalListController = (props) => (
   <context.Consumer>
-    {((contextProps) => (
+    {(({ get, action }) => (
       <AnimalListController
         match={props.match}
-        animals={_.get(contextProps, ['animals', props.match.params.index]) || {}}
+        animals={get('animals')(props.match.params.index)}
         Menu={ContextMenu}
-        fetch={_.partial(contextProps.fetch, 'animals', httpGetAnimals)}
+        fetch={action('animals')(httpGetAnimals)}
       />
     ))}
   </context.Consumer>

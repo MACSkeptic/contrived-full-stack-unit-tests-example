@@ -9,18 +9,19 @@ export class Provider extends React.Component {
     super(props);
     const setState = this.setState.bind(this);
     this.setState = (...args) => this.mounted && setState(...args);
-    this.state = { fetch: this.fetch };
+    this.state = { action: this.action, get: this.get };
   }
-  fetch = (name, fn, index) => {
-    const update = (extras) => ({
+  get = (name) => (index) => _.get(this.state, [name, index], null);
+  action = (name) => (fn) => (index) => {
+    const dispatch = (...args) => _.tap({
       [name]: indexedReducerFor(name)(this.state[name] || {}, _.merge({
         type: name, status: null, index, data: undefined, error: undefined
-      }, extras))
-    });
-    this.setState(update({ status: 'started' }));
+      }, ...args))
+    }, this.setState);
+    dispatch({ status: 'started' });
     return fn(index).then(
-      (data) => this.setState(update({ status: 'success', data })),
-      (error) => this.setState(update({ status: 'failure', error }))
+      (data) => dispatch({ status: 'success', data }),
+      (error) => dispatch({ status: 'failure', error })
     );
   };
   componentDidMount = () => {
