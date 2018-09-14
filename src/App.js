@@ -21,14 +21,14 @@ export const App = () => (
       <NavLink to="/context/animals">Context</NavLink>
     </header>
     <Switch>
-      <Route path="/context/*" render={() => (
+      <Route path="/context" render={() => (
         <Switch>
           <Route path="/context/animals/:index" component={ContextAnimalListController} />
           <Route path="/context/animals" render={() => <Redirect to="/context/animals/all" />} />
           <Route path="/context" render={() => <Redirect to="/context/animals" />} />
         </Switch>
       )} />
-      <Route path="/redux/*" render={() => (
+      <Route path="/redux" render={() => (
         <Switch>
           <Route path="/redux/animals/:index" component={ReduxAnimalListController} />
           <Route path="/redux/animals" render={() => <Redirect to="/redux/animals/all" />} />

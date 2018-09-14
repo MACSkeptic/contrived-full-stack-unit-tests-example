@@ -1,4 +1,5 @@
 body {
+  font-size: 30px;
   color: white;
   background: purple;
   margin: 0;
@@ -8,6 +9,9 @@ body {
 header {
   display: flex;
   flex-direction: row;
+}
+a + a {
+  border-left: solid 2px white;
 }
 header a,
 header a:hover {
