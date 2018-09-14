@@ -36,9 +36,11 @@ _.tap(sinon.createSandbox(), (sandbox) => {
         }])
       ));
       return _.thru(render(), (rendered) => (Promise.resolve()
+        .then(() => waitForElement(() => rendered.getByText('🐑', { exact: false })))
         .then(() => waitForElement(() => rendered.getByText('sheep', { exact: false })))
         .then(() => waitForElement(() => rendered.getByText('magical', { exact: false })))
         .then((link) => fireEvent.click(link))
+        .then(() => waitForElement(() => rendered.getByText('🐈', { exact: false })))
         .then(() => waitForElement(() => rendered.getByText('cat', { exact: false })))
       ));
     });
@@ -84,6 +86,7 @@ _.tap(sinon.createSandbox(), (sandbox) => {
         }])
       ));
       return _.thru(render(), (rendered) => (Promise.resolve()
+        .then(() => waitForElement(() => rendered.getByText('🐑', { exact: false })))
         .then(() => waitForElement(() => rendered.getByText('sheep', { exact: false })))
       ));
     });
