@@ -10,11 +10,6 @@ import _ from 'lodash';
 
 const sandbox = sinon.createSandbox();
 
-/* eslint-disable no-console */
-console.log = _.noop;
-console.info = _.noop;
-/* eslint-enable no-console */
-
 afterEach(() => {
   cleanup();
   sandbox.restore();

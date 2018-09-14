@@ -28,8 +28,8 @@
     "lint": "eslint .",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test:ci": "CI=true react-scripts test --env=jsdom --verbose",
-    "test": "react-scripts test --env=jsdom --verbose",
+    "test:ci": "TEST=true CI=true react-scripts test --env=jsdom --verbose",
+    "test": "TEST=true react-scripts test --env=jsdom --verbose",
     "eject": "react-scripts eject"
   }
 }

@@ -4,11 +4,15 @@ import rootReducer from './reducers.js';
 
 const loggerMiddleware = store => next => action => {
   /* eslint-disable no-console */
-  console.group(action.type);
-  console.info('dispatching', action);
+  if (!process.env.TEST) {
+    console.group(action.type);
+    console.info('dispatching', action);
+  }
   let result = next(action);
-  console.log('next state', store.getState());
-  console.groupEnd();
+  if (!process.env.TEST) {
+    console.log('next state', store.getState());
+    console.groupEnd();
+  }
   return result;
 };
 
