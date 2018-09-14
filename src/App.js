@@ -122,11 +122,18 @@ export const App = () => (
             <Switch>
               <Route path="/context/animals/:index" component={ContextAnimalListController} />
               <Route path="/context/animals" render={() => <Redirect to="/context/animals/all" />} />
+              <Route path="/context" render={() => <Redirect to="/context/animals" />} />
             </Switch>
           </AnimalsProvider>
         )} />
-        <Route path="/redux/animals/:index" component={ConnectedAnimalListController} />
-        <Route path="/redux/animals" render={() => <Redirect to="/redux/animals/all" />} />
+        <Route path="/redux/*" render={() => (
+          <Switch>
+            <Route path="/redux/animals/:index" component={ConnectedAnimalListController} />
+            <Route path="/redux/animals" render={() => <Redirect to="/redux/animals/all" />} />
+            <Route path="/redux" render={() => <Redirect to="/redux/animals" />} />
+          </Switch>
+        )} />
+        <Route path="/" render={() => <Redirect to="/redux" />} />
       </Switch>
   </React.Fragment>
 );
