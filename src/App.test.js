@@ -43,7 +43,7 @@ _.tap(sinon.createSandbox(), (sandbox) => {
       ));
     });
     it('renders an error on navigation', () => {
-      _.thru(sandbox.stub(http, 'httpGetAnimals'), (stub) => ([
+      _.tap(sandbox.stub(http, 'httpGetAnimals'), (stub) => ([
         stub.onCall(0).resolves([]),
         stub.onCall(1).rejects(new Error('onoes'))
       ]));
@@ -54,7 +54,7 @@ _.tap(sinon.createSandbox(), (sandbox) => {
       ));
     });
     it('renders a loading indicator on navigation', () => {
-      _.thru(sandbox.stub(http, 'httpGetAnimals'), (stub) => ([
+      _.tap(sandbox.stub(http, 'httpGetAnimals'), (stub) => ([
         stub.onCall(0).resolves([]),
         stub.onCall(1).returns(new Promise(_.noop))
       ]));
