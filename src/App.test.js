@@ -10,13 +10,6 @@ _.tap(sinon.createSandbox(), (sandbox) => {
     sandbox.restore();
   });
   tests((render) => () => {
-    it('allows users to pick between context and redux', () => {
-      sandbox.stub(http, 'httpGetAnimals').callsFake(() => (new Promise(_.noop)));
-      return _.thru(render(), (rendered) => (Promise.resolve()
-        .then(() => waitForElement(() => rendered.getByText('context', { exact: false })))
-        .then(() => waitForElement(() => rendered.getByText('redux', { exact: false })))
-      ));
-    });
     it('allows users to pick between magical, real, and all', () => {
       sandbox.stub(http, 'httpGetAnimals').callsFake(() => (new Promise(_.noop)));
       return _.thru(render(), (rendered) => (Promise.resolve()

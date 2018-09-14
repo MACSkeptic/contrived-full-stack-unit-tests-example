@@ -54,27 +54,27 @@ export const ContextAnimalListController = contextConnect('animals')((state, own
 
 export const App = () => (
   <React.Fragment>
-    <header>
+    <header style={{ display: 'none' }}>
       <NavLink to="/redux/animals">Redux</NavLink>
       <NavLink to="/context/animals">Context</NavLink>
     </header>
-      <Switch>
-        <Route path="/context/*" render={() => (
-          <Switch>
-            <Route path="/context/animals/:index" component={ContextAnimalListController} />
-            <Route path="/context/animals" render={() => <Redirect to="/context/animals/all" />} />
-            <Route path="/context" render={() => <Redirect to="/context/animals" />} />
-          </Switch>
-        )} />
-        <Route path="/redux/*" render={() => (
-          <Switch>
-            <Route path="/redux/animals/:index" component={ReduxAnimalListController} />
-            <Route path="/redux/animals" render={() => <Redirect to="/redux/animals/all" />} />
-            <Route path="/redux" render={() => <Redirect to="/redux/animals" />} />
-          </Switch>
-        )} />
-        <Route path="/" render={() => <Redirect to="/redux" />} />
-      </Switch>
+    <Switch>
+      <Route path="/context/*" render={() => (
+        <Switch>
+          <Route path="/context/animals/:index" component={ContextAnimalListController} />
+          <Route path="/context/animals" render={() => <Redirect to="/context/animals/all" />} />
+          <Route path="/context" render={() => <Redirect to="/context/animals" />} />
+        </Switch>
+      )} />
+      <Route path="/redux/*" render={() => (
+        <Switch>
+          <Route path="/redux/animals/:index" component={ReduxAnimalListController} />
+          <Route path="/redux/animals" render={() => <Redirect to="/redux/animals/all" />} />
+          <Route path="/redux" render={() => <Redirect to="/redux/animals" />} />
+        </Switch>
+      )} />
+      <Route path="/" render={() => <Redirect to="/redux" />} />
+    </Switch>
   </React.Fragment>
 );
 
