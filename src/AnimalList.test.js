@@ -1,9 +1,6 @@
-import _ from 'lodash';
 import React from 'react';
-import { MemoryRouter, Route } from 'react-router-dom';
 import { waitForElement, cleanup, render } from 'react-testing-library';
 import { AnimalList } from './AnimalList.js';
-import sinon from 'sinon';
 
 afterEach(() => {
   cleanup();
